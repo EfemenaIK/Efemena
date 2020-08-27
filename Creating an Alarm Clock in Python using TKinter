@@ -1,0 +1,94 @@
+#Creating my first Alarm Clock GUI(Graphical User Interface)
+#Two library to be used are Datetime and Tkinter
+#Tkinter provides a powerful Object-oriented interface to the Tk GUI toolkit
+#Import all the libraries necessary to form the alarm clock:
+import tkinter as tk
+from tkinter import *
+from tkinter import ttk
+import datetime
+import time
+import winsound
+
+#Tkinter belongs to a standard library of GUI in python. It is used in creating dialog box that either displays a message or gets info from user
+#Datetime and Time modules helps us to work with date and time in python
+#Winsound provides basic sounds on windows platform. Its useful whe you want to generate a sound when a function is called.
+
+#Creating a function 
+def alarm(set_alarm_timer):
+    check_alarm = True
+    while check_alarm == True:
+        time.sleep(1)
+        current_time = datetime.datetime.now()
+        now = current_time.strftime("%H:%M:%S")
+        date = current_time.strftime("%d/%m/%Y")
+        print("The Set Date is:",date)
+        print(now)
+        print(set_alarm_timer)
+        if now == set_alarm_timer:
+            print("Time to Wake up")
+            winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
+            check_alarm = False
+    
+def actual_time():
+    set_alarm_timer = f"{hourLab.get()}:{minuteLab.get()}:{secondLab.get()}"
+    alarm(set_alarm_timer)
+    
+#Create a function called "alarm()" with the argument "set_alarm_timer" and a while loop with the Boolean TRUE which makes is automatic
+#time.sleep(1) halts further commands until we get value from the user
+#current_time gets the current time
+#now and date obtains the time and date to be printed
+#IF loop compares the current time with the user time "set_alarm_timer" and if it matches print "Time to wake up"
+#winsound.snd_async plays the system generated sound as soon as the condition is satisfied
+#Create another function called "actual_time". It takes user inputs for the alarm time
+
+#Creating the GUI
+clock = Tk()
+clock.title("Stunnaboy Alarm Clock")
+clock.geometry("450x300")
+clock.configure(bg="black")
+
+current_time = datetime.datetime.now()
+now = current_time.strftime("%H:%M:%S")
+date = current_time.strftime("%d/%m/%Y")
+
+intro = Label(clock, text="WELCOME TO STUNNABOY ALARM CLOCK", fg="white", bg="black", anchor=NW)
+intro.grid(row=0, column=0)
+
+
+Time = Label(clock, text="The time is: {0}".format(now), justify=LEFT, bg="black", fg="white")
+setYourAlarm = Label(clock,text = "Set your alarm:",fg="blue",relief = "solid",font=("Helevetica",12,"bold"), justify=RIGHT, bg="black")
+time_format=Label(clock, text= "Enter time in 24 hour format!", fg="white",bg="black",font="Arial")
+hourL = Label(clock, text="HOUR: ", fg="white", justify=LEFT, bg="black")
+space = Label(clock, text="               ", fg="white", bg='black')
+minuteL = Label(clock, text="MINUTE: ", justify=LEFT, bg="black", fg="white")
+secondL = Label(clock, text="SECOND: ", justify=LEFT, bg="black", fg="white")
+
+# The Variables we require to set the alarm(initialization):
+hourLab = StringVar()
+minuteLab = StringVar()
+secondLab = StringVar()
+
+#Time required to set the alarm clock:
+hourTime= Entry(clock,textvariable = hourLab,bg = "pink",width = 15)
+minTime= Entry(clock,textvariable = minuteLab,bg = "pink",width = 15)
+secTime = Entry(clock,textvariable = secondLab,bg = "pink",width = 15)
+
+#To take the time input by user:
+submit = Button(clock,text = "Set Alarm",fg="red",width = 10,command = actual_time)
+
+Time.grid(row=2, column = 0, sticky=W)
+setYourAlarm.grid(row=3, column=0, sticky=W)
+time_format.grid(row=4, column=0, sticky=W)
+hourL.grid(row=5, column=0, sticky=W)
+minuteL.grid(row=6, column=0, sticky=W)
+secondL.grid(row=7, column=0, sticky=W)
+
+
+hourTime.grid(row=5, column=1, sticky=W)
+minTime.grid(row=6, column=1, sticky=W)
+secTime.grid(row=7, column=1, sticky=W)
+
+submit.grid(row=12, column=1)
+
+clock.mainloop()
+#Execution of the window.
